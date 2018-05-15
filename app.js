@@ -92,13 +92,14 @@ document.getElementById('book-form').addEventListener('submit', function(e){
 // Event Listeners for Delete
 
 document.querySelector('#book-list').addEventListener('click', function(e) {
-    //Instantiate UI
+    // Instantiate UI
     const ui = new UI();   
   
-    // delete book
+    // Delete book
     ui.deleteBook(e.target);
 
-    //Show Alert message
+    // Show Alert message
     ui.showAlert('Book Removed!', 'success');
+    
     e.preventDefault();
 });
