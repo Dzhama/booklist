@@ -61,6 +61,59 @@ class UI {
     }
 }
 
+// LS
+
+class Store {
+
+    //Get Books
+    static getBooks() {
+        let books;
+        if(localStorage.getItem('books') === null) {
+            books = [];
+        }else {
+            books = JSON.parse(localStorage.getItem('books'));
+        }
+
+        return books;
+    }
+    // Display Books
+    static displayBooks() {
+        // get list of books
+        const books = Store.getBooks();
+
+        books.forEach(function(book){
+            const ui = new UI;
+
+            //add book to UI
+            ui.addBookToList(book);
+        });
+    }
+    // Add books
+    static addBook(book) {
+       // get list of books
+        const books = Store.getBooks();
+       // Push new book to the list
+        books.push(book);
+    
+       localStorage.setItem('books', JSON.stringify(books));
+    }
+    // Delete Books
+    static removeBook(isbn) {
+        // get list of books
+        const books = Store.getBooks();
+       
+        books.forEach(function(book, index){
+          if(book.isbn === isbn) {
+              books.splice(index, 1);
+          }
+        });
+        
+        localStorage.setItem('books', JSON.stringify(books));
+    }
+}
+
+// DOM Load EVENT
+document.addEventListener('DOMContentLoaded', Store.displayBooks);
 
 // Event Listeners for add Book
 document.getElementById('book-form').addEventListener('submit', function(e){
@@ -79,6 +132,8 @@ document.getElementById('book-form').addEventListener('submit', function(e){
     }else {
         // Add book to list
         ui.addBookToList(book);
+        // add book to LS
+        Store.addBook(book);
         // show succcess
         ui.showAlert("Book Added!", "success");
         // UI Clear Field
@@ -93,6 +148,8 @@ document.querySelector('#book-list').addEventListener('click', function(e) {
     const ui = new UI();   
     // Delete book
     ui.deleteBook(e.target);
+    //delete book from LS
+    Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
     // Show Alert message
     ui.showAlert('Book Removed!', 'success');
     e.preventDefault();

@@ -2,7 +2,7 @@
 //Book Constructor
 function Book(title, author, isbn) {
     this.title = title;
-    this.author = author;
+    this.author = author;//Book Constructor
     this.isbn = isbn;
 }
 
@@ -52,7 +52,7 @@ UI.prototype.showAlert = function(messase, className) {
     }, 3000);
 }
 
-//Detete Bokk
+//Detete Book
 UI.prototype.deleteBook = function(target) {
     if(target.className === 'delete') {
         target.parentElement.parentElement.remove();
