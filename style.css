@@ -1,4 +1,4 @@
-.success .error {
+.success, .error {
     color: white;
     padding: 5px;
     margin: 5px - 15px 0;
@@ -8,6 +8,10 @@
     background-color: green;
 }
 
-error {
+.error {
     background-color: red;
+}
+
+a {
+    text-decoration: none;
 }

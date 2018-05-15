@@ -31,7 +31,34 @@ UI.prototype.clearFields = function() {
     document.querySelector('#author').value = "";
     document.querySelector('#isbn').value = "";
 }
-// Event Listeners
+
+//Show Alert
+UI.prototype.showAlert = function(messase, className) {
+    //Create a DIV
+    const div = document.createElement('div');
+    //add class name
+    div.className = `alert ${className}`;
+    // add text 
+    div.appendChild(document.createTextNode(messase));
+    // get parent 
+    const container = document.querySelector(".container");
+    // get form
+    const form = document.querySelector("#book-form");
+    //insert alert
+    container.insertBefore(div, form);
+    // setTimeout
+    setTimeout(function(){
+        document.querySelector('.alert').remove();
+    }, 3000);
+}
+
+//Detete Bokk
+UI.prototype.deleteBook = function(target) {
+    if(target.className === 'delete') {
+        target.parentElement.parentElement.remove();
+    }
+}
+// Event Listeners for add Book
 document.getElementById('book-form').addEventListener('submit', function(e){
     // get form values
     const title = document.querySelector('#title').value,
@@ -44,11 +71,34 @@ document.getElementById('book-form').addEventListener('submit', function(e){
     //Instantiate UI
     const ui = new UI();
 
-    // Add book to list
-    ui.addBookToList(book);
+    //Validate
+    if(title === "" || author === "" || isbn === "") {
+        ui.showAlert("Please fill in all fields", "error");
+    }else {
+        
+        // Add book to list
+        ui.addBookToList(book);
 
-    // UI Clear Field
-    ui.clearFields();
+        // show succcess
+        ui.showAlert("Book Added!", "success");
+
+        // UI Clear Field
+        ui.clearFields();
+    }
 
     e.preventDefault();
 })
+
+// Event Listeners for Delete
+
+document.querySelector('#book-list').addEventListener('click', function(e) {
+    //Instantiate UI
+    const ui = new UI();   
+  
+    // delete book
+    ui.deleteBook(e.target);
+
+    //Show Alert message
+    ui.showAlert('Book Removed!', 'success');
+    e.preventDefault();
+});
